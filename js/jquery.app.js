@@ -19,4 +19,29 @@ function addDoughnut(doughnut) {
 
   // prepend the new li elem
   $("ul#doughnuts").prepend(newElem);
+
+  // rebind buttons inside each doughnut element
+  bindDelete();
+}
+
+function bindDelete() {
+  $('button.delete').off().on('click', function(e){
+    e.preventDefault();
+
+    var elem = $(this).parent();
+    var id = elem.data("id");
+    var url = "https://api.doughnuts.ga/doughnuts/" + id;
+
+    $.ajax({
+      url: url,
+      method: "delete",
+      success: function(data, status){
+        console.log("Deleted Dougnut");
+        elem.remove();
+      },
+      error: function(data, status){
+        console.log("Something went wrong", data, status);
+      }
+    });
+  });
 }
