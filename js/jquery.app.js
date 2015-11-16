@@ -2,7 +2,7 @@
 $().ready(function(){
   // console.log('dom loaded')
   var addDonut = function(donut){
-    $('#doughnuts').append('<li data-id="'+donut.id+'" class="h5">'+ donut.flavor +'-' + donut.style +'<button type="button" class="btn btn-success btn-group-xs" data-toggle="modal" data-target="#edit-modal">Edit</button>'+'<button type="button" class="btn btn-danger btn-group-xs" data-toggle="modal" data-target="#edit-modal">Delete</button></li>');
+    $('#doughnuts').append('<li data-id="'+donut.id+'" class="h5">'+ donut.flavor +'-' + donut.style +'<button type="button" class="edit btn btn-success btn-group-xs">Edit</button>'+'<button type="button" class="btn btn-danger btn-group-xs">Delete</button></li>');
   };
 
   $.get('https://api.doughnuts.ga/doughnuts')
@@ -27,9 +27,11 @@ $().ready(function(){
     })
   })
 
-  $(".btn").on('click',function(){
-    var id = $(this).parent.data('id');
+  $(".edit").on('click',function(e){
+    e.stopPropagation();
+    var id = $(this).parent().data('id');
     $('#edit-doughnut').data('id', id);
+    $('#edit-modal').modal('show');
   });
 
 // .ajax('https://api.doughnuts.ga/doughnuts/2',{ method: 'PUT', data: {flavor: 'Banana'}}).done(function(data){console.log(data);});
