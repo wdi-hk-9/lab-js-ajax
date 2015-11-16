@@ -23,18 +23,20 @@ $().ready(function(){
         }
       })
     .done(function(donut){
-      console.log(donut);
       addDonut(donut);
     })
   })
 
-  var id = $(this).parent().data('id');
-  $('#edit-doughnut').data('id', id);
+  $(".btn").on('click',function(){
+    var id = $(this).parent.data('id');
+    $('#edit-doughnut').data('id', id);
+  });
+
 // .ajax('https://api.doughnuts.ga/doughnuts/2',{ method: 'PUT', data: {flavor: 'Banana'}}).done(function(data){console.log(data);});
-  $('#edit-doughnut').on('submit', function(e){
+  $('#edit-doughnut').on('submit', function(){
     e.preventDefault();;
-    var id = $('#edit-doughnut').data('id');
-    var donutUrl = "https://api.doughnuts.ga/doughnuts/" + id;
+    var getid = $('#edit-doughnut').data('id');
+    var donutUrl = 'https://api.doughnuts.ga/doughnuts/' + getid;
     $.ajax({
       url: donutUrl,
       type: 'PUT',
@@ -47,9 +49,8 @@ $().ready(function(){
     })
   })
 
-//+$.param({id: e.responseJson.id})
-
 // $.ajax('https://api.doughnuts.ga/doughnuts/10',{ method: 'DELETE'}).done(function(data){console.log(data);});
+
 
 
 })
