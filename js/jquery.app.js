@@ -4,8 +4,15 @@ $(document).ready(function(){
   // get list of doughnuts on start
   getDoughnuts();
 
+  // set form to empty
+  var newDoughnutFlavor = $('#new-doughnut-flavor');
+  var newDoughnutStyle = $('#new-doughnut-style');
+  newDoughnutFlavor.val(null);
+  newDoughnutStyle.val(null);
+
   // bind form to send data using ajax
   $('#edit-doughnut').on('submit', updateDoughnut);
+  $('#new-doughnut').on('submit', createDoughnut);
 });
 
 function getDoughnuts(){
@@ -99,6 +106,38 @@ function updateDoughnut(e) {
 
       // hide the modal when done
       $('#edit-modal').modal("hide");
+    },
+    error: function(data, status){
+      console.log("Something went wrong", data, status);
+    }
+  });
+}
+
+function createDoughnut(e){
+  e.preventDefault();
+
+  var url = 'https://api.doughnuts.ga/doughnuts';
+  var newDoughnutFlavor = $('#new-doughnut-flavor');
+  var newDoughnutStyle = $('#new-doughnut-style');
+  var doughnut = {
+    flavor: newDoughnutFlavor.val(),
+    style: newDoughnutStyle.val()
+  };
+
+  // create a post AJAX request
+  $.ajax({
+    url: url,
+    data: doughnut,
+    method: "post",
+    success: function(data, status){
+      console.log("Created Doughnut");
+
+      // add new doughnut
+      addDoughnut(data);
+
+      // clear our input box!
+      newDoughnutFlavor.val(null);
+      newDoughnutStyle.val(null);
     },
     error: function(data, status){
       console.log("Something went wrong", data, status);
